@@ -7,14 +7,14 @@ import java.util.StringTokenizer;
 public class TestDriver {
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		Matrix matrix;//행렬
+		Matrix matrix;//행렬 객체
 		
 		System.out.println("원하는 행렬의 크기를 입력하시오(행, 열)");
 		
 		StringTokenizer st = new StringTokenizer(br.readLine());//읽어들임
 		RationalNum[][] matrixBuff = new RationalNum[Integer.parseInt(st.nextToken())][Integer.parseInt(st.nextToken())];
 		//입력을 받음
-		System.out.println("행렬을 입력하시오");
+		System.out.println("행렬을 입력하시오 \n(예시)\n1 2\n3 4");
 		for(int r=0; r<matrixBuff.length; r++) {
 			st = new StringTokenizer(br.readLine());
 			for(int c=0; c<matrixBuff[0].length; c++) {

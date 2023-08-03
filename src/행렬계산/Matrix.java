@@ -22,8 +22,7 @@ public class Matrix{//행렬
 	public static Matrix multiply(Matrix m1, Matrix m2){ //왼쪽에 곱한 결과를 반환
 		
 		if(m1.col != m2.row) {
-			System.out.println("곱의 형태가 맞지 않습니다.");
-			return null;
+			throw new RuntimeException("곱의 형태가 맞지 않습니다.");
 		}
 
 		RationalNum[][] result = new RationalNum[m1.row][m2.col];//결과를 저장
@@ -45,8 +44,8 @@ public class Matrix{//행렬
 	 * 행렬식을 구하는 함수
 	 */
 	public RationalNum getDeterminant() {
-		if(row != col) {
-			System.out.println("정방 행렬만 행렬식을 구할 수 있습니다.");
+		if(row != col) {//정방행렬이 아닌경우
+			throw new RuntimeException("정방 행렬만 행렬식을 구할 수 있습니다.");
 		}
 		boolean[][] isHidden = new boolean[2][col]; //가려진 행 열을 표시 0행-행 1행-열
 		
@@ -115,13 +114,11 @@ public class Matrix{//행렬
 		RationalNum determinant = getDeterminant(); //행렬식
 		
 		if(row != col) {//정방행렬이 아닌경우
-			System.out.println("정방 행렬만 행렬식을 구할 수 있습니다.");
-			return null;
+			throw new RuntimeException("정방 행렬만 역행렬을 구할 수 있습니다.");
 		}
 		
 		if(determinant.equals(new RationalNum(1,0))) {//비가역 행렬인 경우
-			System.out.println("비가역 행렬입니다.");
-			return null;
+			throw new RuntimeException("비가역 행렬입니다.");
 		}
 		
 		RationalNum[][] adjointArr = new RationalNum[row][col];
@@ -129,7 +126,6 @@ public class Matrix{//행렬
 		boolean[][] isHidden = new boolean[2][col]; //가려진 행 열을 표시 0행-행 1행-열
 		
 		for(int r=0; r<row; r++) {
-			
 			for(int c=0; c<col; c++) {
 				//r행 c열 가림
 				isHidden[0][r] = true;
@@ -145,11 +141,21 @@ public class Matrix{//행렬
 				
 			}
 		}
-		
-		
 		return new Matrix(adjointArr);
 	}
 	
+	/*
+	 * 역행렬을 이용해 연립 방정식의 해를 행렬 형태로 반환하는 함수
+	 * (현재 행렬에 어떤 행렬을 곱해야 결과 행렬이 나오는지)
+	 */
+	
+	public Matrix getSolution(Matrix result) {
+		if(row != result.row) {
+			throw new RuntimeException("구조가 맞지 않습니다.");
+		}
+		
+		return multiply(getInverse(),result);
+	}
 	
 	public String toString() {
 		StringBuffer rStr = new StringBuffer();

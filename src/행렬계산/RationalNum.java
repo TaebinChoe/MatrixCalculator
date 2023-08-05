@@ -8,16 +8,26 @@ class  RationalNum{
 	private int mom; //분모
 	private int son; //분자
 	
-	RationalNum(){ //기본 값
+	
+	public RationalNum(){ //기본 값
 		mom = 1;
 		son = 0;
 	}
 	
+	public RationalNum(int n){
+		mom = 1;
+		son = n;
+	}
 	
-	RationalNum(int mom, int son) {
+	public RationalNum(int mom, int son) {
 		this.mom = mom;
 		this.son = son;
 		makeSimple(); //기본적으로 기약분수로 만들어둠
+	}
+	
+	public RationalNum(RationalNum r){
+		this.mom = r.mom;
+		this.son = r.son;
 	}
 	
 	public int getMom() {//분모를 반환
@@ -77,10 +87,18 @@ class  RationalNum{
 		son = result.son;
 	}
 	
+	void add(int n) {
+		add(new RationalNum(1,n));
+	}
+	
 	void subtract(RationalNum f) {
 		RationalNum result = subtract(this,f);
 		mom = result.mom;
 		son = result.son;
+	}
+	
+	void subtract(int n) {
+		subtract(new RationalNum(1,n));
 	}
 	
 	void multiply(RationalNum f) {
@@ -89,16 +107,23 @@ class  RationalNum{
 		son = result.son;
 	}
 	
+	void multiply(int n) {
+		multiply(new RationalNum(1,n));
+	}
+	
 	void divide(RationalNum f) {
 		RationalNum result = divide(this,f);
 		mom = result.mom;
 		son = result.son;
 	}
 	
+	void divide(int n) {
+		divide(new RationalNum(1,n));
+	}
+	
 	//양항 연산자
 	public static RationalNum add(RationalNum f1, RationalNum f2) {
-		return new RationalNum(f1.mom*f2.mom, f1.son*f2.mom + f2.son*f1.mom);
-		
+		return new RationalNum(f1.mom*f2.mom, f1.son*f2.mom + f2.son*f1.mom);	
 	}
 	
 	public static RationalNum subtract(RationalNum f1, RationalNum f2) {

@@ -166,6 +166,7 @@ public class Matrix{//행렬
 	 * 무수히 많은 해를 벡터 방정식으로 표현해야 한다면 soultionBox에 벡터 방정식을 넣어서 반환
 	 */
 	static Matrix getSolutionByGauss(Matrix m, int col, int[] resultBox, String[] solutionBox) {
+		
 		RationalNum[][] matrix = new RationalNum[m.row+1][m.col+1]; 
 		
 		//각행의 마지막 1열은 해당 행에서 leading변수를 가진 열이 있다면 그열을 표시 없다면 null
@@ -181,17 +182,12 @@ public class Matrix{//행렬
 			}
 		}
 		
-//		System.out.println("\n주어진 행렬");
-//		System.out.println(new Matrix(matrix));
-//		System.out.println();
-		
 		for(int startC=0; startC<col; startC++) {//leading변수를 만들고 싶은 열
 			//leading 1을 가질 행 골라서 0행과 교환한다.
 			boolean flag = false;
 			for(int r=0; r<m.row; r++) {
 				if(matrix[r][startC].getSon() !=0 && matrix[r][m.col] == null) {
-//					System.out.println("\n"+r + "행이 " + startC + "열의 leadiing변수를 가지면 되겠다. 맨위로 올리자\n");
-					
+
 					matrix[r][m.col] = matrix[r][startC]; //그 행의 leading변수를 가진 실수객체의 주소를 마지막 열에 저장
 					matrix[m.row][startC] = matrix[r][startC]; //그 열의 leading변수를 가진 실수객체의 주소를 마지막 행에 저장
 					
@@ -210,10 +206,6 @@ public class Matrix{//행렬
 			if(!flag) {
 				resultBox[0] = COUNTLESS_SOLUTION;//해가 없는 경우 일 수도 있으나 일단 자유변수를 가지는 것으로 간주
 				break;
-			}else {
-//				System.out.println("위로 올린 결과");
-//				System.out.println(new Matrix(matrix));
-//				System.out.println();
 			}
 			
 			for(int r=0; r<m.row; r++) {//startC 열을 1로 맞춤
@@ -224,15 +216,11 @@ public class Matrix{//행렬
 					for(int c=0; c<m.col; c++) {
 						matrix[r][c].setSon(matrix[r][c].getSon() * toSon);
 						matrix[r][c].setMom(matrix[r][c].getMom() * toMom);
-						//matrix[r][c].makeSimple(); //약분 한다.
 					}	
 				}
 			}
 			
-//			System.out.println(startC+"열을 1로 맞춘 결과");
-//			System.out.println(new Matrix(matrix));
-//			System.out.println();
-			
+
 			for(int r=1; r<m.row; r++) {//밑에 행에 모두 뺀다.
 				if(matrix[r][startC].getSon() != 0) {//startC 열이 0이 아닌 행에는 0행을 빼준다.
 					for(int c=startC; c<m.col; c++) {
@@ -240,14 +228,12 @@ public class Matrix{//행렬
 					}
 				}
 			}
-//			System.out.println("0행을 밑으로 모두 빼준 결과");
-//			System.out.println(new Matrix(matrix));
-//			System.out.println();
+
 		}
 		
 		for(int r=0; r<m.row; r++) {
-			if(matrix[r][m.col] == null) {
-				for(int c=col; c<m.col; c++) {
+			if(matrix[r][m.col] == null) {//자유변수가 없는 행인데
+				for(int c=col; c<m.col; c++) { //B가 영행이 아니라면 
 					if(matrix[r][c].getSon() != 0) {//해가없는 경우, 000|상수 꼴
 						resultBox[0] = NO_SOLUTION;
 						//System.out.println("해가 없다.");
@@ -258,7 +244,6 @@ public class Matrix{//행렬
 		}
 		
 		//rank(A) == rank(A|B) 이므로 해를 가짐
-		
 		RationalNum[][] solution;
 		if(resultBox[0] == UNIQUE_SOLUTION) {//유일 해를 가지는 경우
 			solution = new RationalNum[col][m.col - col]; //A|B의 열수 - A의 열수 = B의 열수	
@@ -274,13 +259,10 @@ public class Matrix{//행렬
 				solutionBox[0] = new String("B가 1열이 아닌 경우는 행공간을 구할 수 없습니다.");
 				return null;
 			}
-			//우선 해공간을 찾음
-			//solution = new RationalNum[col][(col-rankA) + 1]; // 열의 갯수 - rank(A) = nullity(A) 에다 추가로 상수항을 더함
 			
 			StringBuffer solutionStr = new StringBuffer();
 			int numV = 0; //자유변수 번호
 			for(int oC = 0; oC < col; oC++) {
-				
 				
 				if(matrix[m.row][oC] == null) {//해당열은 자유변수를 가짐
 					//자유변수로 각 행의 변수를 표현하여 ( , , , col만큼) 꼴로 만들어야함
@@ -318,20 +300,6 @@ public class Matrix{//행렬
 			
 			//저장
 			solutionBox[0] = solutionStr.toString();
-//			
-//			int cIdx = 0;
-//			for(int c=0; c<col; c++) {//col개의 미지수가 있는 상황이다.
-//				if(matrix[m.row][c] == null) {//해당 열에 해당하는 변수는 자유변수가 된다.
-//					for(int r=0; r<m.row; r++) {
-//						for(int rIdx=0; rIdx<col; rIdx++) {
-//							solution[rIdx][cIdx] = matrix[]
-//						}
-//					}
-//					
-//				}else {//leading변수가 있는 경우
-//					
-//				}
-//			}
 			return null;			
 		}		
 	}

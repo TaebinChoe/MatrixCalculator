@@ -250,6 +250,7 @@ public class Matrix{//행렬
 			for(int c=0; c<col; c++) {
 				for(int i=0; i<solution[0].length; i++) {
 					solution[c][i] = new RationalNum(RationalNum.divide(rowAdress[c][col+i],matrix[m.row][c]));
+					solution[c][i].makeSimple();//약분
 				}
 			}
 			return new Matrix(solution);
@@ -275,6 +276,7 @@ public class Matrix{//행렬
 							RationalNum value = new RationalNum(rowAdress[iC][oC]);//현재 선행변수를 가지는 행의 자유변수열의 수
 							value.multiply(-1); //이항
 							value.divide(matrix[m.row][iC]); //자유변수로 나눔
+							value.makeSimple();//약분
 							
 							solutionStr.append(value.toString() + " ");
 						}else { //0이 됨
@@ -282,7 +284,7 @@ public class Matrix{//행렬
 						}
 					}
 					
-					solutionStr.append(")V" + numV++ + " + ");
+					solutionStr.append(")X" + numV++ + " + ");
 				}
 			}
 			
@@ -291,7 +293,9 @@ public class Matrix{//행렬
 			for(int oC = 0; oC < col; oC++) {
 				if(matrix[m.row][oC] != null) { //leadig 변수를 가진다면
 					//해당 열의 leading변수를 가지는 행의 -상수항을 성분으로 가짐
-					solutionStr.append(RationalNum.multiply(rowAdress[oC][col],new RationalNum(1,-1)).toString() + " ");
+					//solutionStr.append(RationalNum.multiply(rowAdress[oC][col],new RationalNum(1,-1)).toString() + " ");
+					rowAdress[oC][col].makeSimple();
+					solutionStr.append(rowAdress[oC][col].toString() + " ");
 				}else {
 					solutionStr.append("0 ");
 				}

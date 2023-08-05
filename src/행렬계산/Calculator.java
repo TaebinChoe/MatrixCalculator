@@ -79,6 +79,7 @@ public class Calculator {
 			default:
 				System.out.println("잘못된 입력!")	;
 			}
+			System.out.println("==========================");
 		}
 		
 	}

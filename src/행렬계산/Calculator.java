@@ -15,10 +15,10 @@ public class Calculator {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); //입력을 받기 위함
 		StringTokenizer st; //입력을 받기위함
 		
-		final int MULTIPLY = 1, DETERMINANT = 2, INVERSE = 3, EQUATION_I = 4,EQUASION_G = 5, EXIT = 6; //동작들
+		final int MULTIPLY = 1, DETERMINANT = 2, INVERSE = 3, EQUATION_I = 4,EQUASION_G = 5, PROJECTION = 6,EXIT = 7; //동작들
 		
 		while(true) {
-			System.out.print("\n==========<MENU>==========\n1. 행렬곱 연산\n2. 행렬식 연산\n3. 역행렬\n4. 방정식(역행렬)\n5. 방정식(가우스-조르단 소거법)\n6. 종료\n입력: ");
+			System.out.print("\n==========<MENU>==========\n1. 행렬곱 연산\n2. 행렬식 연산\n3. 역행렬\n4. 방정식(역행렬)\n5. 방정식(가우스-조르단 소거법)\n6. 정사영 변환\n7. 종료\n입력: ");
 			st = new StringTokenizer(br.readLine());
 			int command  = Integer.parseInt(st.nextToken()); //명령을 읽어들임
 
@@ -71,6 +71,12 @@ public class Calculator {
 					System.out.println("해를 가지지 않습니다.");
 					break;
 				}	
+				break;
+			case PROJECTION:
+				System.out.println("바닥공간의 기저를 열벡터로 갖는 행렬, 정사영을 내릴 벡터를 열벡터로 갖는 행렬 순으로 입려하세요.");
+				getMatrix(2);
+				System.out.println("<정사영 벡터>\n" +  Matrix.projection(matrix[0],matrix[1]));
+				System.out.println();
 				break;
 			case EXIT:
 				System.out.println("프로그램을 종료합니다. 이용해 주셔서 감사합니다.");

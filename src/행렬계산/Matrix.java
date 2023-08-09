@@ -40,7 +40,32 @@ public class Matrix{//행렬
 
 		return new Matrix(result);
 	}
-
+	
+	/*
+	 * 행렬을 transpose한다.
+	 */
+	public void transpose() {
+		Matrix tm = getTranspose(this);
+		matrix = tm.matrix;
+		row = tm.row;
+		col = tm.col;
+	}
+	
+	/*
+	 * 주어진 행렬의 transpose를 만들어서 반환한다.
+	 */
+	public static Matrix getTranspose(Matrix matrix) {
+		RationalNum[][] tm = new RationalNum[matrix.col][matrix.row];
+		
+		for(int r=0; r<matrix.row; r++) {
+			for(int c=0; c<matrix.col; c++) {
+				tm[c][r] = matrix.matrix[r][c];
+			}
+		}
+		
+		return new Matrix(tm);
+	}
+	
 	/*
 	 * 행렬식을 구하는 함수
 	 */
@@ -235,8 +260,7 @@ public class Matrix{//행렬
 			if(matrix[r][m.col] == null) {//자유변수가 없는 행인데
 				for(int c=col; c<m.col; c++) { //B가 영행이 아니라면 
 					if(matrix[r][c].getSon() != 0) {//해가없는 경우, 000|상수 꼴
-						resultBox[0] = NO_SOLUTION;
-						//System.out.println("해가 없다.");
+						resultBox[0] = NO_SOLUTION;		
 						return null;
 					}
 				}		
@@ -308,6 +332,19 @@ public class Matrix{//행렬
 		}		
 	}
 	
+	/*
+	 * R^n에서 사영 변환
+	 * x의 열벡터들을 w의 열벡터들이 생성하는 벡터공간에 정사영한후 이를 열벡터로 반환한다.
+	 */
+	
+	static public Matrix projection(Matrix w, Matrix x) {
+		if(w.row != x.row) {
+			throw new RuntimeException("같은 R^n의 부분공간이 아닙니다.");
+		}
+		Matrix wt = getTranspose(w); //w의 transpose
+		return multiply(multiply(multiply(w,multiply(wt,w).getInverse()),wt),x);
+	}
+	
 	public String toString() {
 		StringBuffer rStr = new StringBuffer();
 
@@ -321,4 +358,5 @@ public class Matrix{//행렬
 		return rStr.toString();
 	}
 
+	
 }

@@ -1,9 +1,9 @@
-package Çà·Ä°è»ê;
+package í–‰ë ¬ê³„ì‚°;
 import java.io.*;
 
 public class Main {
 	public static void main(String[] args) throws IOException{
 		Calculator calculator = new Calculator();
-		calculator.run();//°è»ê±â ½ÇÇà
+		calculator.run();//ê³„ì‚°ê¸° ì‹¤í–‰
 	}
 }
